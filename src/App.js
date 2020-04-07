@@ -1,10 +1,11 @@
 import React from 'react';
-import TodoList from './components/TodoList'
+import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
 
 
 
-const Todo = [
+
+const todos = [
   {
     task: 'Organize Garage',
   id: 1528817077286,
@@ -25,19 +26,18 @@ class App extends React.Component {
     constructor() {
       super();
       this.state = {
-         todoList: Todo
+         todos: todos
       };
     }
   
-    addItem = (e, item) => {
-      e.preventDefault();
+    addItem = (item) => {
       const newItem = {
         task: item,
         id: Date.now(),
         completed: false
       };
       this.setState({
-        groceries: [...this.state.groceries, newItem]
+        todos: [...this.state.todos, newItem]
       });
     };
 
@@ -47,10 +47,10 @@ class App extends React.Component {
       // when we find the item we clicked, toggle the purchased field
       // otherwise return the item untouched
       this.setState({
-        todoList: this.state.TodoList.map(item => {
+        todos: this.state.todos.map(item => {
           if (itemId === item.id) {
             return {
-              ...Todo,
+              ...item,
               completed: !item.completed
             };
           }
@@ -59,27 +59,25 @@ class App extends React.Component {
       });
     };
   
-    clearPurchased = e => {
-      e.preventDefault();
+    clearPurchased = () => {
       // if item is purchased (item.purchased is true) then filter out
       this.setState({
-        Todos: this.state.filter(item => !item.completed)
+        todos: this.state.todos.filter(item => !item.completed)
       });
     };
   
     render() {
-      console.log('rendering...');
+      console.log(this.state.todos);
       return (
-        <div className="App">
-          <div className="header">
+        <div>
             <h1>Todo List</h1>
-            <TodoForm addItem={this.addItem} />
-          </div>
           <TodoList
-            completed={this.state.Todos}
+            task={this.state.todos}
             toggleItem={this.toggleItem}
-            clearPurchased={this.clearPurchased}
+            clearTodos={this.clearPurchased}
           />
+            <TodoForm addItem={this.addItem} />
+        
         </div>
       );
     }

@@ -4,29 +4,41 @@ class TodoForm extends React.Component {
     constructor() {
         super();
         this.state = {
-            itemName: ""
+            newItem: ""
         };
-    }
+
+    }    
+
     handleChanges = e => {
         e.preventDefault();
-        this.setState({ [e.target.name]: e.target.value })
+        this.setState({ newItem: e.target.value })
     }
-    submitItem = e => {
-        e.preventDefault();
-        this.setState({ item: '' });
-        this.props.addItem(e, this.state.item);
-    };
-
+    // submitItem = e => {
+    //     console.log(props)
+    //     e.preventDefault();
+    //     this.props.addItem(e, this.state.newItem);
+    //     this.setState({ newItem: '' });
+        
+    // };
     render() {
         console.log('rendering form');
         return (
-        <form onSubmit={this.submitItem}>
+        <form onSubmit={(e) => {
+            e.preventDefault()
+            this.props.addItem(this.state.newItem)
+            this.setState({newItem: ""})
+        }}>
             <input
             type="text"
-            value={this.state.item}
+            value={this.state.newItem}
             name="item"
-            onChange={this.handleChanges}>    
+            onChange={(e) => {
+                this.setState({
+                    newItem: e.target.value
+                })
+            }}>    
             </input>
+            <button>press me</button>
         </form>
         );
     }
